@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.store</groupId>
 	<artifactId>cart</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.1</version>
 	<name>Cart</name>
 	<description>A backend shopping cart for an e-commerce.</description>
 	<properties>
