@@ -7,10 +7,7 @@ import com.store.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class CartService {
@@ -21,21 +18,29 @@ public class CartService {
     private ProductRepository productRepository;
 
     public List<Cart> getAllCarts() {
-        return cartRepository.findAll();
+        //filter carts older than 10 minutes if are not removed yet
+        return cartRepository.findAll()
+                                .stream()
+                                .filter(cart -> !cart.isExpired())
+                                .toList();
     }
     public Cart createCart() {
         return cartRepository.save(new Cart(new ArrayList<>(),new Date()));
     }
 
     public Cart getCartById(Long id) {
-        return cartRepository.findById(id).orElse(null);
+        //filter carts older than 10 minutes if are not removed yet
+        return cartRepository.findById(id)
+                .filter(cart -> !cart.isExpired())
+                .orElse(null);
     }
 
     public void deleteCart(Long id) {
         cartRepository.deleteById(id);
     }
     public Cart addProductsToCart(Long cartId, List<Product> productsToAdd) {
-        Optional<Cart> optCart = cartRepository.findById(cartId);
+        //filter carts older than 10 minutes if are not removed yet
+        Optional<Cart> optCart = cartRepository.findById(cartId).filter(cart -> !cart.isExpired());
 
         //No cart, no products
         if (!optCart.isPresent()) {
@@ -77,4 +82,8 @@ public class CartService {
 
 
 
+    public void removeExpiredCarts() {
+        Date expiredDate = new Date(System.currentTimeMillis()-Cart.EXPIRATION_TIME);
+        cartRepository.deleteByLastModifiedBefore(expiredDate);
+    }
 }
