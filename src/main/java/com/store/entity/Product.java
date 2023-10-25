@@ -3,10 +3,8 @@ package com.store.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+
+import javax.persistence.*;
 
 @Entity
 @Data
@@ -21,4 +19,9 @@ public class Product {
     private String description;
 
     private Long amount;
+
+    public Product(String description, long amount) {
+        this.description = description;
+        this.amount = amount;
+    }
 }
