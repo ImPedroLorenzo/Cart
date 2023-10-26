@@ -38,6 +38,13 @@ You can explore and interact with the API using Swagger UI:
 
 
  I made this endpoint so that it would not be annoying to insert the carts and products you can insert data by making a post request to `/api/data/insert-data`
+ This endpoint always delete the data in db and after deletion it inserts 4 carts, and 4 products.
+
+ ### Extra
+
+ The carts have a relation n:m with products, you can NOT add a product which doesnt exist to the cart.
+
+ If the prodcuts is already in the cart, the amount is added to the prev amount. 
 
 
 * * *
